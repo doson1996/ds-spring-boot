@@ -1,6 +1,7 @@
 package com.ds.spring.boot.service;
 
 import com.ds.spring.boot.domain.SysUser;
+import com.ds.spring.boot.model.dto.LoginParam;
 import com.ds.spring.boot.model.dto.SysUserAddParam;
 import com.ds.spring.boot.model.dto.SysUserParam;
 import com.ds.spring.boot.model.dto.SysUserUpdateParam;
@@ -41,5 +42,10 @@ public interface SysUserService {
      */
     Result delete(Integer id);
 
-
+    /**
+     * 登录
+     * @param param
+     * @return
+     */
+    Result login(LoginParam param);
 }

@@ -66,6 +66,22 @@
             <scope>provided</scope>
         </dependency>
 
+        <!--分页插件-->
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+            <version>${pagehelper.version}</version>
+        </dependency>
+
+        <!-- shiro begin-->
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-spring</artifactId>
+            <version>${shiro.version}</version>
+        </dependency>
+        <!-- shiro end-->
+
+       <!-- swagger begin-->
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
@@ -81,6 +97,7 @@
             <artifactId>swagger-bootstrap-ui</artifactId>
             <version>${swagger.ui.version}</version>
         </dependency>
+        <!-- swagger end-->
 
         <dependency>
             <groupId>javax.mail</groupId>
