@@ -2,10 +2,11 @@ package com.ds.spring.boot.service;
 
 import com.ds.spring.boot.domain.SysUser;
 import com.ds.spring.boot.model.dto.LoginParam;
-import com.ds.spring.boot.model.dto.SysUserAddParam;
-import com.ds.spring.boot.model.dto.SysUserParam;
-import com.ds.spring.boot.model.dto.SysUserUpdateParam;
+import com.ds.spring.boot.model.dto.user.SysUserAddParam;
+import com.ds.spring.boot.model.dto.user.SysUserParam;
+import com.ds.spring.boot.model.dto.user.SysUserUpdateParam;
 import com.ds.spring.boot.result.Result;
+import com.github.pagehelper.PageInfo;
 
 /**
  * @Author ds
@@ -48,4 +49,6 @@ public interface SysUserService {
      * @return
      */
     Result login(LoginParam param);
+
+    Result<PageInfo<SysUser>> list();
 }

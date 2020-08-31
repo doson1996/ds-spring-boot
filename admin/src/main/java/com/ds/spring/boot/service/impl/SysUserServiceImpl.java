@@ -7,10 +7,12 @@ import com.ds.spring.boot.constants.BusinessConstants;
 import com.ds.spring.boot.domain.SysUser;
 import com.ds.spring.boot.mapper.SysUserMapper;
 import com.ds.spring.boot.model.dto.LoginParam;
-import com.ds.spring.boot.model.dto.SysUserAddParam;
-import com.ds.spring.boot.model.dto.SysUserUpdateParam;
+import com.ds.spring.boot.model.dto.user.SysUserAddParam;
+import com.ds.spring.boot.model.dto.user.SysUserUpdateParam;
 import com.ds.spring.boot.result.Result;
 import com.ds.spring.boot.service.SysUserService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
@@ -19,6 +21,7 @@ import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @Author ds
@@ -32,6 +35,7 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Resource
     private SysUserMapper sysUserMapper;
+    private LoginParam param;
 
     @Override
     public Result<SysUser> getById(Integer id) {
@@ -107,6 +111,7 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Override
     public Result login(LoginParam param) {
+        this.param = param;
         String username = param.getUsername();
         String password = param.getPassword();
 
@@ -131,6 +136,16 @@ public class SysUserServiceImpl implements SysUserService {
         } catch (Exception e) {
             return Result.fail("账号或密码错误!");
         }
+    }
+
+    @Override
+    public Result<PageInfo<SysUser>> list() {
+        PageHelper pageHelper = new PageHelper();
+        pageHelper.startPage(1,10);
+        List<SysUser> sysUsers = sysUserMapper.selectAll();
+        PageInfo<SysUser> pageInfo = new PageInfo<>(sysUsers);
+        return Result.ok(pageInfo);
+
     }
 
 

@@ -1,4 +1,4 @@
-package com.ds.spring.boot.model.dto;
+package com.ds.spring.boot.model.dto.user;
 
 import lombok.Data;
 
@@ -9,7 +9,7 @@ import lombok.Data;
  * @Description
  */
 @Data
-public class SysUserAddParam {
+public class SysUserParam {
 
     private String username;
 

@@ -2,11 +2,11 @@ package com.ds.spring.boot.controller;
 
 import com.ds.spring.boot.config.shiro.ShiroUtil;
 import com.ds.spring.boot.domain.SysUser;
-import com.ds.spring.boot.model.dto.SysUserAddParam;
-import com.ds.spring.boot.model.dto.SysUserParam;
-import com.ds.spring.boot.model.dto.SysUserUpdateParam;
+import com.ds.spring.boot.model.dto.user.SysUserAddParam;
+import com.ds.spring.boot.model.dto.user.SysUserUpdateParam;
 import com.ds.spring.boot.result.Result;
 import com.ds.spring.boot.service.SysUserService;
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -38,6 +38,12 @@ public class UserController {
     @ApiOperation("根据id获取后台管理员信息")
     public Result<SysUser> getById(@PathVariable Integer id){
         return sysUserService.getById(id);
+    }
+
+    @GetMapping("list")
+    @ApiOperation("获取所有后台管理员信息")
+    public Result<PageInfo<SysUser>> list(){
+        return sysUserService.list();
     }
 
     @PostMapping("insert")
