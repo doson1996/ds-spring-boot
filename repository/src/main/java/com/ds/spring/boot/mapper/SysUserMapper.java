@@ -10,4 +10,5 @@ import com.ds.spring.boot.tk.mybatis.MyMapper;
  * @Description
  */
 public interface SysUserMapper extends MyMapper<SysUser> {
+    SysUser getById(Integer id);
 }

@@ -17,7 +17,18 @@
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated generated on Mon Aug 31 14:07:27 CST 2020.-->
-    id, username, `password`, nickname, phone, role_id, create_time, update_by, update_time, 
+    id, username, `password`, nickname, phone, role_id, create_time, update_by, update_time,
     delete_status
   </sql>
+
+  <select id="getById" parameterType="integer" resultMap="BaseResultMap">
+    select
+        <include refid="Base_Column_List" />
+    from
+        sys_user
+    where
+        id = #{id}
+    and
+        delete_status = 0
+  </select>
 </mapper>

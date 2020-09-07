@@ -57,4 +57,6 @@ public interface SysUserService {
      * @return
      */
     Result<PageInfo<SysUser>> list(SysUserListParam param);
+
+
 }

@@ -36,7 +36,6 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Resource
     private SysUserMapper sysUserMapper;
-    private LoginParam param;
 
     @Override
     public Result<SysUser> getById(Integer id) {
@@ -45,7 +44,8 @@ public class SysUserServiceImpl implements SysUserService {
             return Result.fail("参数无效");
         }
 
-        SysUser sysUser = getUser("id", id);
+      //  SysUser sysUser = getUser("id", id);
+        SysUser sysUser = sysUserMapper.getById(id);
         if(sysUser != null){
             return Result.ok(sysUser);
         }
@@ -114,7 +114,6 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Override
     public Result login(LoginParam param) {
-        this.param = param;
         String username = param.getUsername();
         String password = param.getPassword();
 

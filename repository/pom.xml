@@ -19,10 +19,6 @@
     </properties>
 
     <dependencies>
-        <!--spring boot begin-->
-
-        <!--spring boot end-->
-
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
