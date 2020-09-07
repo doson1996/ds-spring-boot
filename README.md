@@ -5,3 +5,5 @@ spring boot + shiro + mybatis
 ### swagger 地址
 <http://localhost/doc.html#/>    
 <http://localhost/swagger-ui.html#/>  
+### Druid监控地址  
+<http://localhost/druid>   
