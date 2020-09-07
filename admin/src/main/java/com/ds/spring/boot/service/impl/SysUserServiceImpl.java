@@ -8,6 +8,7 @@ import com.ds.spring.boot.domain.SysUser;
 import com.ds.spring.boot.mapper.SysUserMapper;
 import com.ds.spring.boot.model.dto.LoginParam;
 import com.ds.spring.boot.model.dto.user.SysUserAddParam;
+import com.ds.spring.boot.model.dto.user.SysUserListParam;
 import com.ds.spring.boot.model.dto.user.SysUserUpdateParam;
 import com.ds.spring.boot.result.Result;
 import com.ds.spring.boot.service.SysUserService;
@@ -85,6 +86,7 @@ public class SysUserServiceImpl implements SysUserService {
     public Result update(SysUserUpdateParam param) {
         SysUser sysUser = new SysUser();
         BeanUtil.copyProperties(param,sysUser);
+        sysUser.setUpdateTime(new Date());
         int i = sysUserMapper.updateByPrimaryKeySelective(sysUser);
         if(i > 0){
             return Result.ok("更新成功",null);
@@ -102,6 +104,7 @@ public class SysUserServiceImpl implements SysUserService {
         SysUser sysUser = new SysUser();
         sysUser.setId(id);
         sysUser.setDeleteStatus(1);
+        sysUser.setUpdateTime(new Date());
         int i = sysUserMapper.updateByPrimaryKeySelective(sysUser);
         if(i > 0){
             return Result.ok("删除成功",null);
@@ -139,9 +142,9 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
-    public Result<PageInfo<SysUser>> list() {
+    public Result<PageInfo<SysUser>> list(SysUserListParam param) {
         PageHelper pageHelper = new PageHelper();
-        pageHelper.startPage(1,10);
+        pageHelper.startPage(param.getPageNum(),param.getPageSize());
         List<SysUser> sysUsers = sysUserMapper.selectAll();
         PageInfo<SysUser> pageInfo = new PageInfo<>(sysUsers);
         return Result.ok(pageInfo);

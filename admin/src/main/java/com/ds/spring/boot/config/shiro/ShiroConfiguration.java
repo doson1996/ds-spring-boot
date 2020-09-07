@@ -26,15 +26,14 @@ import java.util.Map;
 @Configuration
 public class ShiroConfiguration {
 
-
     @Bean(name = "shiroFilter")
     public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         //Shiro的核心安全接口,这个属性是必须的
         shiroFilterFactoryBean.setSecurityManager(securityManager);
 
-        //todo 前后分离
         Map<String, Filter> filterMap = new LinkedHashMap<>();
+        // 前后分离
         filterMap.put("authc", new AjaxPermissionsAuthorizationFilter());
         shiroFilterFactoryBean.setFilters(filterMap);
 
@@ -50,6 +49,7 @@ public class ShiroConfiguration {
         filterChainDefinitionMap.put("/static/**", "anon");
         filterChainDefinitionMap.put("/uploads/**", "anon");
         filterChainDefinitionMap.put("/auth/**", "anon");
+        filterChainDefinitionMap.put("/druid/**", "anon");
         filterChainDefinitionMap.put("/error", "anon");
         filterChainDefinitionMap.put("/swagger-ui.html/**","anon");
         filterChainDefinitionMap.put("/swagger-resources/**", "anon");
@@ -75,7 +75,6 @@ public class ShiroConfiguration {
     public SecurityManager securityManager() {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setRealm(userRealm());
-       // securityManager.setCacheManager(cacheManager());
         securityManager.setSessionManager(sessionManager());
         return securityManager;
     }
@@ -143,13 +142,12 @@ public class ShiroConfiguration {
     public DefaultWebSessionManager sessionManager() {
         DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
         // 设置session超时时间，单位为毫秒
-        sessionManager.setGlobalSessionTimeout(1800000);
-       // sessionManager.setSessionDAO(redisSessionDAO());
+        sessionManager.setGlobalSessionTimeout(1800000L);
         sessionManager.setSessionIdUrlRewritingEnabled(false);
         //定时清除无效的session
         sessionManager.setSessionValidationSchedulerEnabled(true);
         //半个小时清理一次失效的session
-        sessionManager.setSessionValidationInterval(1800000);
+        sessionManager.setSessionValidationInterval(1800000L);
         //删除无效的session
         sessionManager.setDeleteInvalidSessions(true);
         return sessionManager;

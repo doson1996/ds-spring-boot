@@ -48,4 +48,11 @@ public class AuthController {
         }
         return Result.ok();
     }
+
+    @ApiOperation("获取当前用户信息")
+    @GetMapping("userInfo")
+    public Result<SysUser> UserInfo(){
+        SysUser currentUserInfo = ShiroUtil.getCurrentUserInfo();
+        return Result.ok(currentUserInfo);
+    }
 }

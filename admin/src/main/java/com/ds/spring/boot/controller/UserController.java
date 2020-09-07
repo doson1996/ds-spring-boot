@@ -3,6 +3,7 @@ package com.ds.spring.boot.controller;
 import com.ds.spring.boot.config.shiro.ShiroUtil;
 import com.ds.spring.boot.domain.SysUser;
 import com.ds.spring.boot.model.dto.user.SysUserAddParam;
+import com.ds.spring.boot.model.dto.user.SysUserListParam;
 import com.ds.spring.boot.model.dto.user.SysUserUpdateParam;
 import com.ds.spring.boot.result.Result;
 import com.ds.spring.boot.service.SysUserService;
@@ -40,37 +41,32 @@ public class UserController {
         return sysUserService.getById(id);
     }
 
-    @GetMapping("list")
+    @PostMapping("list")
     @ApiOperation("获取所有后台管理员信息")
-    public Result<PageInfo<SysUser>> list(){
-        return sysUserService.list();
+    public Result<PageInfo<SysUser>> list(@RequestBody SysUserListParam param){
+        return sysUserService.list(param);
     }
 
     @PostMapping("insert")
     @ApiOperation("添加后台管理员")
-    @RequiresPermissions("user:insert")
+    //@RequiresPermissions("user:insert")
     public Result insert(@RequestBody SysUserAddParam param){
         return sysUserService.insert(param);
     }
 
     @PostMapping("update")
     @ApiOperation("修改后台管理员信息")
-    @RequiresPermissions("user:update")
+    //@RequiresPermissions("user:update")
     public Result update(@RequestBody SysUserUpdateParam param){
         return sysUserService.update(param);
     }
 
     @GetMapping("delete/{id}")
     @ApiOperation("删除后台管理员")
-    @RequiresPermissions("user:delete")
+    //@RequiresPermissions("user:delete")
     public Result delete(@PathVariable Integer id){
         return sysUserService.delete(id);
     }
 
-    @ApiOperation("获取当前用户信息")
-    @GetMapping("userInfo")
-    public Result<SysUser> UserInfo(){
-        SysUser currentUserInfo = ShiroUtil.getCurrentUserInfo();
-        return Result.ok(currentUserInfo);
-    }
+
 }

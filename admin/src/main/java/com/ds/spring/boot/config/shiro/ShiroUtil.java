@@ -4,6 +4,8 @@ import cn.hutool.core.util.StrUtil;
 import com.ds.spring.boot.constants.ShiroConstants;
 import com.ds.spring.boot.domain.SysUser;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.UnauthenticatedException;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.session.Session;
 
 /**
@@ -16,14 +18,14 @@ import org.apache.shiro.session.Session;
 public class ShiroUtil {
 
   /**获取当前登录用户Id*/
-  public static Long getCurrentUserId(){
+  /*public static Long getCurrentUserId(){
     Session session = SecurityUtils.getSubject().getSession();
     Long userId = (Long) session.getAttribute(ShiroConstants.SESSION_USER_ID);
     return userId;
-  }
+  }*/
 
   /**获取当前登录用户名*/
-  public static String getCurrentUsername(){
+  /*public static String getCurrentUsername(){
     Session session = SecurityUtils.getSubject().getSession();
     String username = (String) session.getAttribute(ShiroConstants.SESSION_USER_NAME);
     if(StrUtil.isEmpty(username)){
@@ -31,13 +33,17 @@ public class ShiroUtil {
     }else{
       return username;
     }
-  }
+  }*/
 
   /**获取当前登录用户信息*/
   public static SysUser getCurrentUserInfo(){
     Session session = SecurityUtils.getSubject().getSession();
     SysUser user = (SysUser) session.getAttribute(ShiroConstants.SESSION_USER_INFO);
-    return user;
+    if(user != null){
+      return user;
+    }
+    //如果当前登录用户信息为空，抛出未登录异常
+    throw new UnauthenticatedException();
   }
 
 
