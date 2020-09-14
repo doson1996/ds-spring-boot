@@ -18,6 +18,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @ResponseBody
 public class GlobalExceptionHandler {
 
+
+    /**
+     *业务异常拦截
+     */
+    @ExceptionHandler(BusinessException.class)
+    public Result BusinessExceptionHandler(BusinessException e) {
+        return Result.fail(e.getCode(),e.getMessage());
+    }
+
     /**
      * 权限不足报错拦截
      */

@@ -3,6 +3,7 @@ package com.ds.spring.boot.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
+import com.ds.spring.boot.config.exception.BusinessException;
 import com.ds.spring.boot.constants.BusinessConstants;
 import com.ds.spring.boot.domain.SysUser;
 import com.ds.spring.boot.mapper.SysUserMapper;
@@ -11,6 +12,7 @@ import com.ds.spring.boot.model.dto.user.SysUserAddParam;
 import com.ds.spring.boot.model.dto.user.SysUserListParam;
 import com.ds.spring.boot.model.dto.user.SysUserUpdateParam;
 import com.ds.spring.boot.result.Result;
+import com.ds.spring.boot.result.ResultCode;
 import com.ds.spring.boot.service.SysUserService;
 import com.ds.spring.boot.utils.redis.service.RedisService;
 import com.github.pagehelper.PageHelper;
@@ -45,7 +47,8 @@ public class SysUserServiceImpl implements SysUserService {
     public Result<SysUser> getById(Integer id) {
         //验证用户id
         if(id < BusinessConstants.USER_ID_MIN){
-            return Result.fail("参数无效");
+            throw new BusinessException(ResultCode.PARAM_IS_INVALID.getCode(),ResultCode.PARAM_IS_INVALID.getMsg());
+            //return Result.fail("参数无效");
         }
         //先去redis中查找是否存在
         Object o = redisService.get(id.toString());
@@ -160,7 +163,6 @@ public class SysUserServiceImpl implements SysUserService {
         List<SysUser> sysUsers = sysUserMapper.selectAll();
         PageInfo<SysUser> pageInfo = new PageInfo<>(sysUsers);
         return Result.ok(pageInfo);
-
     }
 
     /**
