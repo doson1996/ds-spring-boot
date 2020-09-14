@@ -31,7 +31,15 @@ public class GlobalExceptionHandler {
      * 在请求需要权限的接口,而连登录都还没登录的时候,会报此错
      */
     @ExceptionHandler(UnauthenticatedException.class)
-    public Result unauthenticatedException() {
+    public Result unauthenticatedExceptionHandler() {
         return Result.fail(ResultCode.UNAUTHORIZED.getCode(),ResultCode.UNAUTHORIZED.getMsg());
+    }
+
+    /**
+     * RedisService参数报错拦截
+     */
+    @ExceptionHandler(IllegalArgumentException.class)
+    public Result IllegalArgumentExceptionHandler(IllegalArgumentException e) {
+        return Result.fail(ResultCode.PARAM_IS_INVALID.getCode(),e.getMessage());
     }
 }

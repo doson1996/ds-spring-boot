@@ -4,7 +4,6 @@ import com.ds.spring.boot.domain.SysUser;
 import com.ds.spring.boot.model.dto.LoginParam;
 import com.ds.spring.boot.model.dto.user.SysUserAddParam;
 import com.ds.spring.boot.model.dto.user.SysUserListParam;
-import com.ds.spring.boot.model.dto.user.SysUserParam;
 import com.ds.spring.boot.model.dto.user.SysUserUpdateParam;
 import com.ds.spring.boot.result.Result;
 import com.github.pagehelper.PageInfo;

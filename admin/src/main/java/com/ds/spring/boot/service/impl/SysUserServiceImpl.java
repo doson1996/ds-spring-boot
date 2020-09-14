@@ -12,6 +12,7 @@ import com.ds.spring.boot.model.dto.user.SysUserListParam;
 import com.ds.spring.boot.model.dto.user.SysUserUpdateParam;
 import com.ds.spring.boot.result.Result;
 import com.ds.spring.boot.service.SysUserService;
+import com.ds.spring.boot.utils.redis.service.RedisService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.shiro.SecurityUtils;
@@ -19,10 +20,10 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
-
 import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @Author ds
@@ -37,16 +38,25 @@ public class SysUserServiceImpl implements SysUserService {
     @Resource
     private SysUserMapper sysUserMapper;
 
+    @Resource
+    private RedisService redisService;
+
     @Override
     public Result<SysUser> getById(Integer id) {
         //验证用户id
         if(id < BusinessConstants.USER_ID_MIN){
             return Result.fail("参数无效");
         }
+        //先去redis中查找是否存在
+        Object o = redisService.get(id.toString());
+        if(o != null){
+            SysUser sysUser = BeanUtil.toBean(o, SysUser.class);
+            return Result.ok(sysUser);
+        }
 
-      //  SysUser sysUser = getUser("id", id);
-        SysUser sysUser = sysUserMapper.getById(id);
+        SysUser sysUser = getUser("id", id);
         if(sysUser != null){
+            redisService.set(id.toString(),sysUser, 1L,TimeUnit.HOURS);
             return Result.ok(sysUser);
         }
         return Result.fail("用户不存在");
@@ -89,6 +99,8 @@ public class SysUserServiceImpl implements SysUserService {
         sysUser.setUpdateTime(new Date());
         int i = sysUserMapper.updateByPrimaryKeySelective(sysUser);
         if(i > 0){
+            //更新成功，删除缓存数据
+            redisService.delete(param.getId().toString());
             return Result.ok("更新成功",null);
         }
         return Result.fail("更新失败");
@@ -107,6 +119,7 @@ public class SysUserServiceImpl implements SysUserService {
         sysUser.setUpdateTime(new Date());
         int i = sysUserMapper.updateByPrimaryKeySelective(sysUser);
         if(i > 0){
+            redisService.delete(id.toString());
             return Result.ok("删除成功",null);
         }
         return Result.fail("删除失败");
@@ -149,7 +162,6 @@ public class SysUserServiceImpl implements SysUserService {
         return Result.ok(pageInfo);
 
     }
-
 
     /**
      * 根据字段查找用户

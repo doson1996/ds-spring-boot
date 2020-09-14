@@ -18,6 +18,9 @@ import lombok.Data;
 @Data
 @Table(name = "sys_user")
 public class SysUser implements Serializable {
+
+    private static final long serialVersionUID = -1554690736434551872L;
+
     @Id
     @Column(name = "id")
     @GeneratedValue(generator = "JDBC")
@@ -77,5 +80,4 @@ public class SysUser implements Serializable {
     @Column(name = "delete_status")
     private Integer deleteStatus;
 
-    private static final long serialVersionUID = 1L;
 }
