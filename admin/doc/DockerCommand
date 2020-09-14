@@ -1,0 +1,2 @@
+docker build -t ds-spring-boot .
+docker run -p 8080:80 --name ds-spring-boot -d --restart=always ds-spring-boot
