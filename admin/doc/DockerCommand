@@ -1,2 +1,4 @@
+#构建docker镜像
 docker build -t ds-spring-boot .
+#启动docker容器
 docker run -p 8080:80 --name ds-spring-boot -d --restart=always ds-spring-boot
